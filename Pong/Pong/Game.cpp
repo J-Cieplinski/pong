@@ -16,6 +16,8 @@ Game::~Game()
 
 void Game::Run()
 {
+	std::srand(std::time(nullptr));
+
 	while(m_Window.isOpen())
 	{
 		while(m_Window.pollEvent(m_Event))
@@ -30,8 +32,8 @@ void Game::Run()
 		m_PlayerTwoPaddle.UpdatePosition();
 
 		m_Window.clear();
-		m_Window.draw(m_PlayerOnePaddle.getPaddle());
-		m_Window.draw(m_PlayerTwoPaddle.getPaddle());
+		m_Window.draw(m_PlayerOnePaddle.GetPaddle());
+		m_Window.draw(m_PlayerTwoPaddle.GetPaddle());
 		m_Window.display();
 	}
 

@@ -12,7 +12,7 @@ private:
 	
 	bool Move(float);
 public:
-	const sf::RectangleShape& getPaddle() const;
+	const sf::RectangleShape& GetPaddle() const;
 	void UpdatePosition();
 	Paddle(sf::Vector2f size, sf::Vector2f screenSize, PlayerKeyboard* keys, PlayerSide side);
 	~Paddle();
