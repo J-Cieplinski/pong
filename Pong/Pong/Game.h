@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "Paddle.h"
+#include "Ball.h"
 
 
 class Game
@@ -12,6 +13,7 @@ private:
 	sf::Event			m_Event;
 	Paddle				m_PlayerOnePaddle;
 	Paddle				m_PlayerTwoPaddle;
+	Ball				m_Ball;
 
 public:
 	Game(sf::Vector2f screenSize, std::string name);

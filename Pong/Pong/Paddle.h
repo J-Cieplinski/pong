@@ -14,7 +14,7 @@ private:
 public:
 	const sf::RectangleShape& GetPaddle() const;
 	void UpdatePosition();
-	Paddle(sf::Vector2f size, sf::Vector2f screenSize, PlayerKeyboard* keys, PlayerSide side);
+	Paddle(sf::Vector2f size, sf::Vector2f& screenSize, PlayerKeyboard* keys, PlayerSide side);
 	~Paddle();
 };
 
