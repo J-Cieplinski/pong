@@ -1,7 +1,9 @@
 #include "Game.h"
 #include "misc.cpp"
 
-Game::Game(unsigned int width, unsigned int height, std::string name) : m_Window(sf::VideoMode(width, height), name), m_PlayerOnePaddle(sf::Vector2f(15,100), sf::Vector2f(width,height), new PlayerKeyboard(sf::Keyboard::Left, sf::Keyboard::Right))
+Game::Game(sf::Vector2f screenSize, std::string name) : m_Window(sf::VideoMode(screenSize.x, screenSize.y), name), 
+			m_PlayerOnePaddle(sf::Vector2f(15, 100), screenSize, new PlayerKeyboard(sf::Keyboard::Left, sf::Keyboard::Right), PlayerSide::LEFT), 
+			m_PlayerTwoPaddle(sf::Vector2f(15, 100), screenSize, new PlayerKeyboard(sf::Keyboard::A, sf::Keyboard::D), PlayerSide::RIGHT)
 {
 
 	m_Window.setVerticalSyncEnabled(true);
@@ -25,9 +27,11 @@ void Game::Run()
 
 		}
 		m_PlayerOnePaddle.UpdatePosition();
+		m_PlayerTwoPaddle.UpdatePosition();
 
 		m_Window.clear();
 		m_Window.draw(m_PlayerOnePaddle.getPaddle());
+		m_Window.draw(m_PlayerTwoPaddle.getPaddle());
 		m_Window.display();
 	}
 

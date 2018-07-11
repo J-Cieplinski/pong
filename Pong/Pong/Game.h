@@ -4,6 +4,7 @@
 #include <string>
 #include "Paddle.h"
 
+
 class Game
 {
 private:
@@ -13,7 +14,7 @@ private:
 	Paddle				m_PlayerTwoPaddle;
 
 public:
-	Game(unsigned int, unsigned int, std::string);
+	Game(sf::Vector2f screenSize, std::string name);
 	~Game();
 
 	void Run();
