@@ -4,13 +4,13 @@ bool Paddle::Move(float direction)
 {
 	auto position = m_Shape.getPosition();
 
-	if ((position.y + m_Shape.getSize().y) > m_ScreenSize.y)
+	if ((position.y + m_Shape.getSize().y + direction) > m_ScreenSize.y)
 	{
 		position.y = m_ScreenSize.y - m_Shape.getSize().y;
 		m_Shape.setPosition(position);
 		return false;
 	}
-	else if((position.y) < 0)
+	else if((position.y + direction) < 0)
 	{
 		position.y = 0;
 		m_Shape.setPosition(position);
