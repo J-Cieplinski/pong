@@ -1,7 +1,7 @@
 #include "Game.h"
+#include "misc.cpp"
 
-
-Game::Game(unsigned int width, unsigned int height, std::string name) : m_Window(sf::VideoMode(width, height), name), m_Paddle(sf::Vector2f(15,100), sf::Vector2f(width,height))
+Game::Game(unsigned int width, unsigned int height, std::string name) : m_Window(sf::VideoMode(width, height), name), m_PlayerOnePaddle(sf::Vector2f(15,100), sf::Vector2f(width,height), new PlayerKeyboard(sf::Keyboard::Left, sf::Keyboard::Right))
 {
 
 	m_Window.setVerticalSyncEnabled(true);
@@ -22,11 +22,12 @@ void Game::Run()
 			{
 				m_Window.close();
 			}
+
 		}
-		m_Paddle.UpdatePosition();
+		m_PlayerOnePaddle.UpdatePosition();
 
 		m_Window.clear();
-		m_Window.draw(m_Paddle.getPaddle());
+		m_Window.draw(m_PlayerOnePaddle.getPaddle());
 		m_Window.display();
 	}
 

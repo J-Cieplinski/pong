@@ -1,19 +1,19 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "misc.cpp"
 
 class Paddle
 {
 private:
 	sf::RectangleShape	m_Shape;
-	sf::RenderWindow	m_Window;
 	sf::Vector2f		m_ScreenSize;
-	bool reverse = false;
+	PlayerKeyboard		m_Keys;
+	bool Move(float);
 
 public:
-	//void drawPaddle(sf::RenderWindow const&);
 	const sf::RectangleShape& getPaddle();
 	void UpdatePosition();
-	Paddle(sf::Vector2f, sf::Vector2f);
+	Paddle(sf::Vector2f, sf::Vector2f, PlayerKeyboard*);
 	~Paddle();
 };
 

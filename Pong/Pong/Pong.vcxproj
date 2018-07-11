@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="misc.cpp" />
     <ClCompile Include="Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
