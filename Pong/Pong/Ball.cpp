@@ -1,14 +1,16 @@
 #include "Ball.h"
+#include <chrono>
+#include <thread>
 
 
 
-Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize)
+Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize), m_StartingPosition(m_ScreenSize.x / 2, m_ScreenSize.y / 2)
 {
 	m_Speed = 1;
 	m_BallRadius = 10.f;
 	m_Ball.setFillColor(sf::Color(255, 255, 255));
 	m_Ball.setRadius(m_BallRadius);
-	m_Ball.setPosition(sf::Vector2f(m_ScreenSize.x/2, m_ScreenSize.y/2));
+	m_Ball.setPosition(m_StartingPosition);
 
 
 	//TODO Figure out how to generate random number between -1 and 1
@@ -36,28 +38,40 @@ void Ball::Move(float speed)
 	{
 		position.y = m_ScreenSize.y - m_BallRadius*2;
 		m_Direction.y *= -1;
-		m_Ball.setPosition(position + m_Direction);
+		m_Ball.move(m_Direction);
+
+		//TODO get rid of this after making sure it is not needed
+		//m_Ball.setPosition(position + m_Direction);
 	}
 	else if(0 >= position.y + m_Direction.y + m_BallRadius/2)
 	{
 		position.y = 0;
 		m_Direction.y *= -1;
-		m_Ball.setPosition(position + m_Direction);
+		m_Ball.move(m_Direction);
+
+		//TODO get rid of this after making sure it is not needed
+		//m_Ball.setPosition(position + m_Direction);
 	}
 	else if(0 >= position.x + m_Direction.x)
 	{
-		//TODO Increase player 2 score, reset ball position and direction
+		//TODO Increase player 2 score, reset ball direction
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
+		m_Ball.setPosition(m_StartingPosition);
 	}
 	else if (m_ScreenSize.x <= position.x + m_Direction.x)
 	{
-		//TODO Increase player 1 score, reset ball position and direction
+		//TODO Increase player 1 score, reset ball direction
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
+		m_Ball.setPosition(m_StartingPosition);
 	}
 	//TODO Add Collision with paddle
 	else		
 		m_Ball.setPosition(position + m_Direction);
 }
 
-void Ball::UpdatePosition()
+void Ball::UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize)
 {
 	Move(m_Speed);
 }

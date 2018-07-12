@@ -1,19 +1,23 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "misc.cpp"
+
+
 
 class Ball
 {
 private:
 	sf::CircleShape m_Ball;
 	sf::Vector2f	m_ScreenSize;
+	sf::Vector2f	m_Direction;
+	sf::Vector2f	m_StartingPosition;
 	float			m_Speed;
 	float			m_BallRadius;
-	sf::Vector2f	m_Direction;
 public:
 	Ball(sf::Vector2f& screenSize);
 	~Ball();
 	const sf::CircleShape GetBall() const;
 	void Move(float speed);
-	void UpdatePosition();
+	void UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize);
 };
 

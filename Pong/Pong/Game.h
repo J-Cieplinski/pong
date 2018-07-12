@@ -11,6 +11,7 @@ class Game
 private:
 	sf::RenderWindow	m_Window;
 	sf::Event			m_Event;
+	sf::Vector2f		m_PaddleSize;
 	Paddle				m_PlayerOnePaddle;
 	Paddle				m_PlayerTwoPaddle;
 	Ball				m_Ball;

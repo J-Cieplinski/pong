@@ -26,6 +26,7 @@ bool Paddle::Move(float direction)
 	}
 }
 
+
 const sf::RectangleShape& Paddle::GetPaddle() const
 {
 	return m_Shape;
