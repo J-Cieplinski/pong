@@ -5,8 +5,9 @@
 Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize)
 {
 	m_Speed = 1;
+	m_BallRadius = 10.f;
 	m_Ball.setFillColor(sf::Color(255, 255, 255));
-	m_Ball.setRadius(10.f);
+	m_Ball.setRadius(m_BallRadius);
 	m_Ball.setPosition(sf::Vector2f(m_ScreenSize.x/2, m_ScreenSize.y/2));
 
 
@@ -31,13 +32,17 @@ void Ball::Move(float speed)
 
 	m_Direction *= m_Speed;
 
-	if(m_ScreenSize.y <= position.y + m_Direction.y)
+	if(m_ScreenSize.y < (position.y + m_Direction.y + m_BallRadius*2))
 	{
-		//TODO Bouncing off the lower boundry
+		position.y = m_ScreenSize.y - m_BallRadius*2;
+		m_Direction.y *= -1;
+		m_Ball.setPosition(position + m_Direction);
 	}
-	else if(0 >= position.y + m_Direction.y)
+	else if(0 >= position.y + m_Direction.y + m_BallRadius/2)
 	{
-		//TODO Bouncing off the uppper boundry
+		position.y = 0;
+		m_Direction.y *= -1;
+		m_Ball.setPosition(position + m_Direction);
 	}
 	else if(0 >= position.x + m_Direction.x)
 	{
@@ -47,7 +52,8 @@ void Ball::Move(float speed)
 	{
 		//TODO Increase player 1 score, reset ball position and direction
 	}
-	else
+	//TODO Add Collision with paddle
+	else		
 		m_Ball.setPosition(position + m_Direction);
 }
 

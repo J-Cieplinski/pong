@@ -7,6 +7,7 @@ private:
 	sf::CircleShape m_Ball;
 	sf::Vector2f	m_ScreenSize;
 	float			m_Speed;
+	float			m_BallRadius;
 	sf::Vector2f	m_Direction;
 public:
 	Ball(sf::Vector2f& screenSize);
