@@ -17,7 +17,7 @@ public:
 	Ball(sf::Vector2f& screenSize);
 	~Ball();
 	const sf::CircleShape GetBall() const;
-	void Move(float speed);
+	void CheckCollision(const sf::Vector2f& paddleSize, const PlayersPosition& paddlePositions);
 	void UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize);
 };
 

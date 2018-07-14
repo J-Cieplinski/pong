@@ -28,50 +28,56 @@ const sf::CircleShape Ball::GetBall() const
 	return m_Ball;
 }
 
-void Ball::Move(float speed)
+void Ball::CheckCollision(const sf::Vector2f& paddleSize, const PlayersPosition& paddlePositions)
 {
 	auto position = m_Ball.getPosition();
 
 	m_Direction *= m_Speed;
 
-	if(m_ScreenSize.y < (position.y + m_Direction.y + m_BallRadius*2))
+	if(m_ScreenSize.y < (position.y + m_Direction.y + m_BallRadius*2)) //bounce off of lower bound
 	{
-		position.y = m_ScreenSize.y - m_BallRadius*2;
 		m_Direction.y *= -1;
 		m_Ball.move(m_Direction);
-
-		//TODO get rid of this after making sure it is not needed
-		//m_Ball.setPosition(position + m_Direction);
 	}
-	else if(0 >= position.y + m_Direction.y + m_BallRadius/2)
+	else if(0 >= position.y + m_Direction.y + m_BallRadius/2) //bounce off of upper bound
 	{
-		position.y = 0;
 		m_Direction.y *= -1;
 		m_Ball.move(m_Direction);
-
-		//TODO get rid of this after making sure it is not needed
-		//m_Ball.setPosition(position + m_Direction);
 	}
 	else if(0 >= position.x + m_Direction.x)
 	{
 		//TODO Increase player 2 score, reset ball direction
-
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
 	}
 	else if (m_ScreenSize.x <= position.x + m_Direction.x)
 	{
 		//TODO Increase player 1 score, reset ball direction
-
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
 	}
 	//TODO Add Collision with paddle
+	else if(paddleSize.x >= (position.x + m_Direction.x + m_BallRadius/2)) //check if within X range of paddle 
+	{
+		if (((paddlePositions.PlayerOne.y + paddleSize.y)) > (position.y + m_Direction.y + m_BallRadius / 2)) //check if within Y range of paddle
+		{			
+			m_Direction.x *= -1;
+			m_Ball.move(m_Direction);
+		}
+	}
+	else if((m_ScreenSize.x - paddleSize.x) <= (position.x + m_Direction.x + m_BallRadius * 2))
+	{
+		if((paddlePositions.PlayerTwo.y + paddleSize.y) < (position.y + m_Direction.y + m_BallRadius *2))
+		{
+			m_Direction.x *= -1;
+			m_Ball.move(m_Direction);
+		}
+	}
 	else		
 		m_Ball.setPosition(position + m_Direction);
 }
 
 void Ball::UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize)
 {
-	Move(m_Speed);
+	CheckCollision(paddleSize, paddlePositions);
 }
