@@ -52,8 +52,8 @@ Paddle::Paddle(sf::Vector2f size, sf::Vector2f& screenSize, PlayerKeyboard* keys
 {
 	m_Speed = 2;
 	auto* color = new sf::Color(1 + std::rand() / ((RAND_MAX + 1u) / 255),
-	                                 1 + std::rand() / ((RAND_MAX + 1u) / 255),
-	                                 1 + std::rand() / ((RAND_MAX + 1u) / 255)); //Randomize individual paddles color
+	                            1 + std::rand() / ((RAND_MAX + 1u) / 255),
+	                            1 + std::rand() / ((RAND_MAX + 1u) / 255)); //Randomize individual paddles color
 	m_Shape.setFillColor(*color);
 	delete color;
 	if (PlayerSide::LEFT == side)
