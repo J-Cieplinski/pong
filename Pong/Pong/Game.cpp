@@ -1,5 +1,7 @@
 #include "Game.h"
 #include "misc.cpp"
+#include <chrono>
+#include <thread>
 
 Game::Game(sf::Vector2f screenSize, std::string name) : m_Window(sf::VideoMode(screenSize.x, screenSize.y), name), m_PaddleSize(15, 100),
 			m_PlayerOnePaddle(m_PaddleSize, screenSize, new PlayerKeyboard(sf::Keyboard::Left, sf::Keyboard::Right), PlayerSide::LEFT), 

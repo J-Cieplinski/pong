@@ -1,8 +1,8 @@
 #include "Ball.h"
+#include <iostream>
 #include <chrono>
 #include <thread>
-
-
+#include <random>
 
 Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize), m_StartingPosition(m_ScreenSize.x / 2, m_ScreenSize.y / 2)
 {
@@ -13,9 +13,8 @@ Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize), m_StartingPosit
 	m_Ball.setPosition(m_StartingPosition);
 
 
-	//TODO Figure out how to generate random number between -1 and 1
-	m_Direction.x = rand() % (3) - 1;
-	m_Direction.y = rand() % (3) - 1;
+	//TODO Kind of done?
+    RandomizeDirection();
 }
 
 
@@ -36,8 +35,6 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	const auto dividedBallBouncerX = position.x + m_Direction.x + m_BallRadius / 2;
 	const auto multipliedBallBouncerX = position.x + m_Direction.x + m_BallRadius * 2;
 
-	m_Direction *= m_Speed;
-
 	if(m_ScreenSize.y < dividedBallBouncerY) //bounce off of lower bound
 	{
 		ChangeDirectionAndMove(m_Direction.y);
@@ -51,12 +48,14 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 		//TODO Increase player 2 score, reset ball direction
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
+		RandomizeDirection();
 	}
 	else if (m_ScreenSize.x <= multipliedBallBouncerX)
 	{
 		//TODO Increase player 1 score, reset ball direction
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
+		RandomizeDirection();
 	}
 	else if(paddleSize.x >= dividedBallBouncerX) //check if within X range of paddle 
 	{
@@ -89,4 +88,16 @@ void Ball::ChangeDirectionAndMove(float& directionToChange)
 void Ball::UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize)
 {
 	CheckCollisionAndMove(paddleSize, paddlePositions);
+}
+
+void Ball::RandomizeDirection() {
+
+    std::mt19937 generator(std::time(nullptr));
+    std::uniform_real_distribution<double> distribution(-1.0,1.0);
+    m_Direction.x = distribution(generator);
+    if(0 == abs(m_Direction.x) )
+		m_Direction.x = distribution(generator);
+    m_Direction.y = distribution(generator);
+	if(0 == abs(m_Direction.y))
+		m_Direction.y = distribution(generator);
 }

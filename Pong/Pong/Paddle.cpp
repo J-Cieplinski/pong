@@ -1,6 +1,7 @@
 #include "Paddle.h"
 #include <ctime>
 #include <cstdlib>
+#include <random>
 
 bool Paddle::Move(float direction)
 {
@@ -51,6 +52,8 @@ void Paddle::UpdatePosition()
 Paddle::Paddle(sf::Vector2f size, sf::Vector2f& screenSize, PlayerKeyboard* keys, PlayerSide side) : m_Shape(size), m_ScreenSize(screenSize), m_Keys(*keys)
 {
 	m_Speed = 2;
+
+
 	auto* color = new sf::Color(1 + std::rand() / ((RAND_MAX + 1u) / 255),
 	                            1 + std::rand() / ((RAND_MAX + 1u) / 255),
 	                            1 + std::rand() / ((RAND_MAX + 1u) / 255)); //Randomize individual paddles color

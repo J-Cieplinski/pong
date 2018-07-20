@@ -21,5 +21,6 @@ public:
 private:
 	void CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPosition& paddlePositions);
 	void ChangeDirectionAndMove(float& directionToChange);
+	void RandomizeDirection();
 };
 
