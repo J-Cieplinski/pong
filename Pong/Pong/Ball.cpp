@@ -17,7 +17,6 @@ Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize), m_StartingPosit
 	m_wallSound.loadFromFile("assets/sounds/withWall.ogg");
 
 
-	//TODO Kind of done?
     RandomizeDirection();
 }
 
@@ -26,7 +25,7 @@ Ball::~Ball()
 {
 }
 
-const sf::CircleShape Ball::GetBall() const
+const sf::CircleShape & Ball::GetBall() const
 {
 	return m_Ball;
 }
@@ -53,7 +52,7 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	}
 	else if(0 >= position.x + m_Direction.x)
 	{
-		//TODO Increase player 2 score, reset ball direction
+		//TODO Increase player 2 score
         m_Sound.setBuffer(m_lossSound);
         m_Sound.play();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
@@ -62,7 +61,7 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	}
 	else if (m_ScreenSize.x <= multipliedBallBouncerX)
 	{
-		//TODO Increase player 1 score, reset ball direction
+		//TODO Increase player 1 score
         m_Sound.setBuffer(m_lossSound);
         m_Sound.play();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
@@ -99,7 +98,7 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 
 void Ball::ChangeDirectionAndMove(float& directionToChange)
 {
-    if(directionToChange>=4)
+    if(directionToChange>=4)                //Don't let the ball move too fast
         directionToChange/=m_Acceleration;
 
 	directionToChange *= -1;
@@ -116,9 +115,9 @@ void Ball::RandomizeDirection() {
     std::mt19937 generator(std::time(nullptr));
     std::uniform_real_distribution<float> distribution(-1.0,1.0);
     m_Direction.x = distribution(generator);
-    if(0 == abs(m_Direction.x) )
+    while(0.4 > std::fabs(m_Direction.x) )
 		m_Direction.x = distribution(generator);
     m_Direction.y = distribution(generator);
-	if(0 == abs(m_Direction.y))
+	while (0.4 > std::fabs(m_Direction.y))
 		m_Direction.y = distribution(generator);
 }
