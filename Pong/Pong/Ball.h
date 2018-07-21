@@ -12,7 +12,7 @@ private:
 	sf::Vector2f	m_ScreenSize;
 	sf::Vector2f	m_Direction;
 	sf::Vector2f	m_StartingPosition;
-	float			m_Speed;
+	float			m_Acceleration;
 	float			m_BallRadius;
 	sf::SoundBuffer m_lossSound;
 	sf::SoundBuffer m_paddleSound;

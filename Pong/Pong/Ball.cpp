@@ -6,7 +6,7 @@
 
 Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize), m_StartingPosition(m_ScreenSize.x / 2, m_ScreenSize.y / 2)
 {
-	m_Speed = 1;
+	m_Acceleration = 1.2f;
 	m_BallRadius = 10.f;
 	m_Ball.setFillColor(sf::Color(255, 255, 255));
 	m_Ball.setRadius(m_BallRadius);
@@ -67,13 +67,14 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
         m_Sound.play();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
-		RandomizeDirection();
+        RandomizeDirection();
 	}
 	else if(paddleSize.x >= dividedBallBouncerX) //check if within X range of paddle 
 	{
 		if(((paddlePositions.PlayerOne.y) < dividedBallBouncerY) && ((paddlePositions.PlayerOne.y + paddleSize.y) > dividedBallBouncerY)) //check if within Y range of paddle
 		{
-		    m_Sound.setBuffer(m_paddleSound);
+            m_Direction*=m_Acceleration;
+            m_Sound.setBuffer(m_paddleSound);
 		    m_Sound.play();
 			ChangeDirectionAndMove(m_Direction.x);
 		}
@@ -84,6 +85,7 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	{
 		if((paddlePositions.PlayerTwo.y) < multipliedBallBouncerY && ((paddlePositions.PlayerTwo.y + paddleSize.y) > multipliedBallBouncerY))
 		{
+            m_Direction*=m_Acceleration;
             m_Sound.setBuffer(m_paddleSound);
             m_Sound.play();
 			ChangeDirectionAndMove(m_Direction.x);
@@ -97,6 +99,9 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 
 void Ball::ChangeDirectionAndMove(float& directionToChange)
 {
+    if(directionToChange>=4)
+        directionToChange/=m_Acceleration;
+
 	directionToChange *= -1;
 	m_Ball.move(m_Direction);
 }
