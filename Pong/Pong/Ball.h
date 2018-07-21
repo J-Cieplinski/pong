@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "misc.cpp"
 
 
@@ -13,6 +14,10 @@ private:
 	sf::Vector2f	m_StartingPosition;
 	float			m_Speed;
 	float			m_BallRadius;
+	sf::SoundBuffer m_lossSound;
+	sf::SoundBuffer m_paddleSound;
+	sf::SoundBuffer m_wallSound;
+	sf::Sound       m_Sound;
 public:
 	Ball(sf::Vector2f& screenSize);
 	~Ball();

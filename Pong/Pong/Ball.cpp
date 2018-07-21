@@ -12,6 +12,10 @@ Ball::Ball(sf::Vector2f& screenSize) : m_ScreenSize(screenSize), m_StartingPosit
 	m_Ball.setRadius(m_BallRadius);
 	m_Ball.setPosition(m_StartingPosition);
 
+	m_lossSound.loadFromFile("assets/sounds/loss.ogg");
+	m_paddleSound.loadFromFile("assets/sounds/withPaddle.ogg");
+	m_wallSound.loadFromFile("assets/sounds/withWall.ogg");
+
 
 	//TODO Kind of done?
     RandomizeDirection();
@@ -38,14 +42,20 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	if(m_ScreenSize.y < dividedBallBouncerY) //bounce off of lower bound
 	{
 		ChangeDirectionAndMove(m_Direction.y);
+		m_Sound.setBuffer(m_wallSound);
+		m_Sound.play();
 	}
 	else if(0 >= multipliedBallBouncerY) //bounce off of upper bound
 	{
 		ChangeDirectionAndMove(m_Direction.y);
+        m_Sound.setBuffer(m_wallSound);
+        m_Sound.play();
 	}
 	else if(0 >= position.x + m_Direction.x)
 	{
 		//TODO Increase player 2 score, reset ball direction
+        m_Sound.setBuffer(m_lossSound);
+        m_Sound.play();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
 		RandomizeDirection();
@@ -53,6 +63,8 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	else if (m_ScreenSize.x <= multipliedBallBouncerX)
 	{
 		//TODO Increase player 1 score, reset ball direction
+        m_Sound.setBuffer(m_lossSound);
+        m_Sound.play();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
 		RandomizeDirection();
@@ -60,7 +72,9 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	else if(paddleSize.x >= dividedBallBouncerX) //check if within X range of paddle 
 	{
 		if(((paddlePositions.PlayerOne.y) < dividedBallBouncerY) && ((paddlePositions.PlayerOne.y + paddleSize.y) > dividedBallBouncerY)) //check if within Y range of paddle
-		{			
+		{
+		    m_Sound.setBuffer(m_paddleSound);
+		    m_Sound.play();
 			ChangeDirectionAndMove(m_Direction.x);
 		}
 		else
@@ -70,6 +84,8 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	{
 		if((paddlePositions.PlayerTwo.y) < multipliedBallBouncerY && ((paddlePositions.PlayerTwo.y + paddleSize.y) > multipliedBallBouncerY))
 		{
+            m_Sound.setBuffer(m_paddleSound);
+            m_Sound.play();
 			ChangeDirectionAndMove(m_Direction.x);
 		}
 		else
@@ -93,7 +109,7 @@ void Ball::UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vect
 void Ball::RandomizeDirection() {
 
     std::mt19937 generator(std::time(nullptr));
-    std::uniform_real_distribution<double> distribution(-1.0,1.0);
+    std::uniform_real_distribution<float> distribution(-1.0,1.0);
     m_Direction.x = distribution(generator);
     if(0 == abs(m_Direction.x) )
 		m_Direction.x = distribution(generator);
