@@ -23,9 +23,9 @@ public:
 	Ball(sf::Vector2f& screenSize);
 	~Ball();
 	const sf::CircleShape & GetBall() const;
-	void UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize);
+	void UpdatePosition(PlayersInformation &paddlePositions, const sf::Vector2f &paddleSize);
 private:
-	void CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPosition& paddlePositions);
+	void CheckCollisionAndMove(const sf::Vector2f &paddleSize, PlayersInformation &paddleInfo);
 	void ChangeDirectionAndMove(float& directionToChange);
 	void RandomizeDirection();
 };

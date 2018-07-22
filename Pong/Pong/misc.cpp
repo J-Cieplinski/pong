@@ -16,9 +16,20 @@ enum PlayerSide
 		RIGHT
 };
 
-struct PlayersPosition
+struct PlayersInformation
 {
+public:
 	sf::Vector2f PlayerOne;
 	sf::Vector2f PlayerTwo;
-	PlayersPosition(const sf::Vector2f& one, const sf::Vector2f& two) : PlayerOne(one), PlayerTwo(two) {};
+private:
+	int 		 PlayerOneScore;
+	int 		 PlayerTwoScore;
+public:
+	PlayersInformation(const sf::Vector2f& one, const sf::Vector2f& two) : PlayerOne(one), PlayerTwo(two),
+                                                                           PlayerOneScore(0), PlayerTwoScore(0) {};
+	void IncreasePlayerOneScore() {++PlayerOneScore;}
+	void IncreasePlayerTwoScore() {++PlayerTwoScore;}
+	const int getPlayerOneScore() {return PlayerOneScore;}
+    const int getPlayerTwoScore() {return PlayerTwoScore;}
+
 };

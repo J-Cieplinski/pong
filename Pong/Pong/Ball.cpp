@@ -30,7 +30,7 @@ const sf::CircleShape & Ball::GetBall() const
 	return m_Ball;
 }
 
-void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPosition& paddlePositions)
+void Ball::CheckCollisionAndMove(const sf::Vector2f &paddleSize, PlayersInformation &paddleInfo)
 {
 	auto position = m_Ball.getPosition();
 	const auto dividedBallBouncerY = position.y + m_Direction.y + m_BallRadius * 2;
@@ -52,25 +52,25 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	}
 	else if(0 >= position.x + m_Direction.x)
 	{
-		//TODO Increase player 2 score
         m_Sound.setBuffer(m_lossSound);
         m_Sound.play();
+        paddleInfo.IncreasePlayerTwoScore();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
 		RandomizeDirection();
 	}
 	else if (m_ScreenSize.x <= multipliedBallBouncerX)
 	{
-		//TODO Increase player 1 score
         m_Sound.setBuffer(m_lossSound);
         m_Sound.play();
+        paddleInfo.IncreasePlayerOneScore();
 		std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // wait for 1s, let that defeat sink in
 		m_Ball.setPosition(m_StartingPosition);
         RandomizeDirection();
 	}
-	else if(paddleSize.x >= dividedBallBouncerX) //check if within X range of paddle 
+	else if(paddleSize.x >= dividedBallBouncerX) //check if within X range of paddle
 	{
-		if(((paddlePositions.PlayerOne.y) < dividedBallBouncerY) && ((paddlePositions.PlayerOne.y + paddleSize.y) > dividedBallBouncerY)) //check if within Y range of paddle
+		if(((paddleInfo.PlayerOne.y) < dividedBallBouncerY) && ((paddleInfo.PlayerOne.y + paddleSize.y) > dividedBallBouncerY)) //check if within Y range of paddle
 		{
             m_Direction*=m_Acceleration;
             m_Sound.setBuffer(m_paddleSound);
@@ -82,7 +82,7 @@ void Ball::CheckCollisionAndMove(const sf::Vector2f& paddleSize, const PlayersPo
 	}
 	else if((m_ScreenSize.x - paddleSize.x) <= multipliedBallBouncerX)
 	{
-		if((paddlePositions.PlayerTwo.y) < multipliedBallBouncerY && ((paddlePositions.PlayerTwo.y + paddleSize.y) > multipliedBallBouncerY))
+		if((paddleInfo.PlayerTwo.y) < multipliedBallBouncerY && ((paddleInfo.PlayerTwo.y + paddleSize.y) > multipliedBallBouncerY))
 		{
             m_Direction*=m_Acceleration;
             m_Sound.setBuffer(m_paddleSound);
@@ -105,7 +105,7 @@ void Ball::ChangeDirectionAndMove(float& directionToChange)
 	m_Ball.move(m_Direction);
 }
 
-void Ball::UpdatePosition(const PlayersPosition& paddlePositions, const sf::Vector2f& paddleSize)
+void Ball::UpdatePosition(PlayersInformation &paddlePositions, const sf::Vector2f &paddleSize)
 {
 	CheckCollisionAndMove(paddleSize, paddlePositions);
 }
