@@ -8,7 +8,7 @@ Game::Game(sf::Vector2f screenSize, std::string name) : m_Window(sf::VideoMode(s
 			m_PlayerTwoPaddle(m_PaddleSize, screenSize, new PlayerKeyboard(sf::Keyboard::A, sf::Keyboard::D), PlayerSide::RIGHT),
 			m_Ball(screenSize), m_PlayersInfo(m_PlayerOnePaddle.GetPaddle().getPosition(), m_PlayerTwoPaddle.GetPaddle().getPosition())
 {
-    m_Font.loadFromFile("arial.ttf");
+    m_Font.loadFromFile("assets/fonts/arial.ttf");
 
     int* i = new int(0);
     *i = -30;
@@ -33,7 +33,6 @@ Game::~Game()
 
 void Game::Run()
 {
-	std::srand(std::time(nullptr));
 
 	while(m_Window.isOpen())
 	{
@@ -67,12 +66,10 @@ void Game::UpdateScores()
 {
     m_Score[0].setString(std::to_string(m_PlayersInfo.getPlayerOneScore()));
     m_Score[1].setString(std::to_string(m_PlayersInfo.getPlayerTwoScore()));
-
 }
 
 void Game::UpdatePlayersInfo()
 {
     m_PlayersInfo.PlayerOne = m_PlayerOnePaddle.GetPaddle().getPosition();
     m_PlayersInfo.PlayerTwo = m_PlayerTwoPaddle.GetPaddle().getPosition();
-
 }

@@ -10,8 +10,10 @@
 
 int main()
 {
+    std::srand(std::time(nullptr));
 
-	Game pong(sf::Vector2f(WIDTH, HEIGHT), "pong");
+
+    Game pong(sf::Vector2f(WIDTH, HEIGHT), "pong");
 	pong.Run();
 	
 }
