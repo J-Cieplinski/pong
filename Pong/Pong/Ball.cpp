@@ -1,5 +1,4 @@
 #include "Ball.h"
-#include <iostream>
 #include <chrono>
 #include <thread>
 #include <random>
@@ -115,9 +114,9 @@ void Ball::RandomizeDirection() {
     std::mt19937 generator(std::time(nullptr));
     std::uniform_real_distribution<float> distribution(-1.0,1.0);
     m_Direction.x = distribution(generator);
-    while(0.4 > std::fabs(m_Direction.x) )
+    while(0.6 > std::fabs(m_Direction.x) )
 		m_Direction.x = distribution(generator);
     m_Direction.y = distribution(generator);
-	while (0.4 > std::fabs(m_Direction.y))
+	while (0.6 > std::fabs(m_Direction.y))
 		m_Direction.y = distribution(generator);
 }

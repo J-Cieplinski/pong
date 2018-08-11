@@ -1,5 +1,4 @@
 #include "Paddle.h"
-#include <ctime>
 #include <cstdlib>
 #include <random>
 
@@ -46,7 +45,6 @@ void Paddle::UpdatePosition()
 		Move(-1*m_Speed);
 	}
 	
-
 }
 
 Paddle::Paddle(sf::Vector2f size, sf::Vector2f& screenSize, PlayerKeyboard* keys, PlayerSide side) : m_Shape(size), m_ScreenSize(screenSize), m_Keys(*keys)

@@ -4,6 +4,7 @@
 #include <string>
 #include "Paddle.h"
 #include "Ball.h"
+#include <array>
 
 
 class Game
